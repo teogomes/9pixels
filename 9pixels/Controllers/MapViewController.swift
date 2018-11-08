@@ -62,7 +62,7 @@ class MapViewController: UIViewController,CLLocationManagerDelegate , MKMapViewD
         resultsViewController?.delegate = self as GMSAutocompleteResultsViewControllerDelegate
         searchController = UISearchController(searchResultsController: resultsViewController)
         searchController?.searchResultsUpdater = resultsViewController
-        
+        navigationBar.backgroundColor = .white
         let subView = UIView(frame: CGRect(x: 0, y: navigationBar.frame.height+30, width: 350.0, height: 45.0))
         subView.addSubview((searchController?.searchBar)!)
         view.addSubview(subView)
