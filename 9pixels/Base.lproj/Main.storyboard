@@ -51,6 +51,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Pick Up Stores" largeTitleDisplayMode="always" id="6hZ-ld-DdI"/>
                     <connections>
+                        <outlet property="table" destination="49b-TO-o23" id="cqb-Kx-Ery"/>
                         <segue destination="R7P-TA-EK8" kind="custom" identifier="mapSegue" customClass="customSegue" customModule="_pixels" customModuleProvider="target" id="FMd-IK-xgZ"/>
                     </connections>
                 </tableViewController>
@@ -67,7 +68,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="bhO-O8-jSV">
-                                <rect key="frame" x="0.0" y="184" width="414" height="712"/>
+                                <rect key="frame" x="0.0" y="96" width="414" height="800"/>
                             </mapView>
                             <navigationBar contentMode="scaleToFill" largeTitles="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Ef-Rr-b40">
                                 <rect key="frame" x="0.0" y="32" width="414" height="96"/>
@@ -82,37 +83,34 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="KDl-Hd-AnK">
-                                <rect key="frame" x="0.0" y="128" width="414" height="56"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <scopeButtonTitles>
-                                    <string>Title</string>
-                                    <string>Title</string>
-                                </scopeButtonTitles>
-                                <connections>
-                                    <outlet property="delegate" destination="R7P-TA-EK8" id="kug-Ej-zxj"/>
-                                </connections>
-                            </searchBar>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gZ8-xb-ErZ">
+                                <rect key="frame" x="354" y="822" width="40" height="40"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" backgroundImage="red_map_icon">
+                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="KDl-Hd-AnK" firstAttribute="leading" secondItem="cG5-i6-ASF" secondAttribute="leading" id="1CP-nj-bPo"/>
+                            <constraint firstItem="gZ8-xb-ErZ" firstAttribute="bottom" secondItem="cG5-i6-ASF" secondAttribute="bottom" id="0R2-es-eSS"/>
+                            <constraint firstItem="cG5-i6-ASF" firstAttribute="trailing" secondItem="gZ8-xb-ErZ" secondAttribute="trailing" constant="20" id="6aq-t7-qGj"/>
                             <constraint firstItem="bhO-O8-jSV" firstAttribute="leading" secondItem="cG5-i6-ASF" secondAttribute="leading" id="CTL-lF-iRq"/>
-                            <constraint firstItem="KDl-Hd-AnK" firstAttribute="trailing" secondItem="cG5-i6-ASF" secondAttribute="trailing" id="DdI-Ls-ahw"/>
                             <constraint firstItem="bhO-O8-jSV" firstAttribute="trailing" secondItem="cG5-i6-ASF" secondAttribute="trailing" id="F0O-aT-VQQ"/>
                             <constraint firstItem="2Ef-Rr-b40" firstAttribute="trailing" secondItem="cG5-i6-ASF" secondAttribute="trailing" id="USd-xz-Vuq"/>
                             <constraint firstItem="2Ef-Rr-b40" firstAttribute="leading" secondItem="cG5-i6-ASF" secondAttribute="leading" id="Ymf-cU-PRc"/>
                             <constraint firstAttribute="bottom" secondItem="bhO-O8-jSV" secondAttribute="bottom" id="b9y-tl-bJR"/>
+                            <constraint firstItem="bhO-O8-jSV" firstAttribute="top" secondItem="cG5-i6-ASF" secondAttribute="top" constant="52" id="iQR-7k-mP0"/>
                             <constraint firstItem="2Ef-Rr-b40" firstAttribute="top" secondItem="TeD-TN-4vO" secondAttribute="top" constant="32" id="vXQ-pl-ewQ"/>
-                            <constraint firstItem="KDl-Hd-AnK" firstAttribute="top" secondItem="2Ef-Rr-b40" secondAttribute="bottom" id="xTp-8Y-br2"/>
-                            <constraint firstItem="bhO-O8-jSV" firstAttribute="top" secondItem="KDl-Hd-AnK" secondAttribute="bottom" id="zGj-e4-fnA"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="cG5-i6-ASF"/>
                     </view>
                     <navigationItem key="navigationItem" title="Pick Up Stores" largeTitleDisplayMode="always" id="FwM-OE-YbI"/>
                     <connections>
                         <outlet property="map" destination="bhO-O8-jSV" id="QbR-l3-nty"/>
-                        <outlet property="searchBar" destination="KDl-Hd-AnK" id="hO9-85-46C"/>
+                        <outlet property="navigationBar" destination="2Ef-Rr-b40" id="3DN-LI-KFw"/>
+                        <outlet property="roundButton" destination="gZ8-xb-ErZ" id="CCB-5y-pfj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dpf-Hg-eCx" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -128,6 +126,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="cSo-sD-h7I">
                         <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -140,6 +139,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="back_icon" width="22.5" height="22.5"/>
+        <image name="back_icon" width="15" height="15"/>
+        <image name="red_map_icon" width="40" height="40"/>
     </resources>
 </document>

@@ -11,7 +11,6 @@
 		C12BD2D9219432080066B5A2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12BD2D8219432080066B5A2 /* AppDelegate.swift */; };
 		C12BD2DB219432080066B5A2 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12BD2DA219432080066B5A2 /* MapViewController.swift */; };
 		C12BD2DE219432080066B5A2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C12BD2DC219432080066B5A2 /* Main.storyboard */; };
-		C12BD2E0219432090066B5A2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C12BD2DF219432090066B5A2 /* Assets.xcassets */; };
 		C12BD2E3219432090066B5A2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C12BD2E1219432090066B5A2 /* LaunchScreen.storyboard */; };
 		C12BD2EE219432090066B5A2 /* _pixelsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12BD2ED219432090066B5A2 /* _pixelsTests.swift */; };
 		C12BD2F9219432090066B5A2 /* _pixelsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12BD2F8219432090066B5A2 /* _pixelsUITests.swift */; };
@@ -19,6 +18,7 @@
 		C12BD30A219476E90066B5A2 /* customButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12BD309219476E90066B5A2 /* customButton.swift */; };
 		C12BD30C219483FE0066B5A2 /* customSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12BD30B219483FE0066B5A2 /* customSegue.swift */; };
 		C12BD30F21948E310066B5A2 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C12BD30E21948E310066B5A2 /* MapKit.framework */; };
+		C12BD3112194EA4E0066B5A2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C12BD3102194EA4E0066B5A2 /* Assets.xcassets */; };
 		D1CEFAE723C7F62FEA139939 /* Pods_9pixelsUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C08EA9BA2BCCF6D5678FB539 /* Pods_9pixelsUITests.framework */; };
 		DA8750CD5D07DBD262B9F30A /* Pods_9pixels.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC5BE8B223616FD02E35E5AB /* Pods_9pixels.framework */; };
 /* End PBXBuildFile section */
@@ -52,7 +52,6 @@
 		C12BD2D8219432080066B5A2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C12BD2DA219432080066B5A2 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		C12BD2DD219432080066B5A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		C12BD2DF219432090066B5A2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C12BD2E2219432090066B5A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C12BD2E4219432090066B5A2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C12BD2E9219432090066B5A2 /* 9pixelsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = 9pixelsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -65,6 +64,7 @@
 		C12BD309219476E90066B5A2 /* customButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = customButton.swift; sourceTree = "<group>"; };
 		C12BD30B219483FE0066B5A2 /* customSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = customSegue.swift; sourceTree = "<group>"; };
 		C12BD30E21948E310066B5A2 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		C12BD3102194EA4E0066B5A2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CF16FECDD56C978C10E731A0 /* Pods-9pixelsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-9pixelsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-9pixelsTests/Pods-9pixelsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		DC5BE8B223616FD02E35E5AB /* Pods_9pixels.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_9pixels.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -139,11 +139,11 @@
 				C12BD308219438320066B5A2 /* Controllers */,
 				C12BD2D8219432080066B5A2 /* AppDelegate.swift */,
 				C12BD2DC219432080066B5A2 /* Main.storyboard */,
-				C12BD2DF219432090066B5A2 /* Assets.xcassets */,
 				C12BD2E1219432090066B5A2 /* LaunchScreen.storyboard */,
 				C12BD2E4219432090066B5A2 /* Info.plist */,
 				C12BD309219476E90066B5A2 /* customButton.swift */,
 				C12BD30B219483FE0066B5A2 /* customSegue.swift */,
+				C12BD3102194EA4E0066B5A2 /* Assets.xcassets */,
 			);
 			path = 9pixels;
 			sourceTree = "<group>";
@@ -300,7 +300,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C12BD2E3219432090066B5A2 /* LaunchScreen.storyboard in Resources */,
-				C12BD2E0219432090066B5A2 /* Assets.xcassets in Resources */,
+				C12BD3112194EA4E0066B5A2 /* Assets.xcassets in Resources */,
 				C12BD2DE219432080066B5A2 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

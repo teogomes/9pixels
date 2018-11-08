@@ -13,9 +13,6 @@ public class customButton :UIButton {
     
     override public func awakeFromNib() {
         super.awakeFromNib()
-        
-        
-        
     }
     
     var myValue: Int

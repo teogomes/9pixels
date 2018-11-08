@@ -21,44 +21,24 @@ struct Store {
         address = json["address"] as? String ?? ""
         postalCode = json["postal_code"] as? String ?? ""
     }
-    
-}
-
-struct MapPoints {
-    let latidude:NSNumber
-    let longitude:NSNumber
-    
-    init(json:[String:Any]){
-        latidude = json["lat"] as? NSNumber ?? 0
-        longitude = json["lng"] as? NSNumber ?? 0
-    }
 }
 
 class storesTableViewController: UITableViewController{
     var Stores: [Store] = []
-    var mapList: [MapPoints] = []
+    @IBOutlet var table: UITableView!
     var roundButton = UIButton()
+    var dataOK = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchData()
-        
-        
+        table.alwaysBounceVertical=false
     }
-    
     
     override func viewWillAppear(_ animated: Bool) {
         insertButton()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        if roundButton.superview != nil {
-            DispatchQueue.main.async {
-                self.roundButton.removeFromSuperview()
-                
-            }
-        }
-    }
     func insertButton(){
         roundButton = customButton(value: 0)
         roundButton.addTarget(self, action: #selector(buttonAction), for: UIControl.Event.touchUpInside)
@@ -74,85 +54,82 @@ class storesTableViewController: UITableViewController{
             //text and image
             self.roundButton.imageView?.sizeToFit()
             self.roundButton.setImage(UIImage(named: "map_icon"), for: .normal)
-            self.roundButton.imageEdgeInsets = UIEdgeInsets(top: 5, left: 50, bottom: 10, right: self.roundButton.bounds.width - 110)
+            self.roundButton.imageEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 10, right: self.roundButton.bounds.width - 150)
             self.roundButton.titleEdgeInsets = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: (self.roundButton.imageView?.frame.width)!)
-            
             self.roundButton.setTitle("View on on Map", for: .normal)
-            
+            self.roundButton.isHidden = false
         }
     }
     
     @objc func buttonAction(sender: UIButton!) {
-        
-        let screenHeight = UIScreen.main.bounds.size.height
-        UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
-            self.roundButton.transform = CGAffineTransform.identity
-            self.roundButton.transform = CGAffineTransform(translationX: 0, y: -screenHeight)
-            
-        }) { (success) in
-            DispatchQueue.main.async {
-                self.roundButton.removeFromSuperview()
+        if dataOK {
+            let screenHeight = UIScreen.main.bounds.size.height
+            UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
+                self.roundButton.transform = CGAffineTransform.identity
+                self.roundButton.transform = CGAffineTransform(translationX: 0, y: -screenHeight)
+            }) { (success) in
+                DispatchQueue.main.async {
+                    self.roundButton.removeFromSuperview()
+                }
             }
+            performSegue(withIdentifier: "mapSegue", sender: self)
+        }else{
+            print("Wait Data to Load")
         }
-    
-       
-        
-        performSegue(withIdentifier: "mapSegue", sender: self)
     }
     
-    
     func fetchData(){
-        
-        let jsonUrlString = "https://api.myjson.com/bins/taw6u"
-        guard let url = URL(string: jsonUrlString) else {return}
-        
+        guard let url = URL(string: "https://api.myjson.com/bins/taw6u") else {return}
         URLSession.shared.dataTask(with: url) { (data, response, err) in
-            
             guard let data = data else {return}
-            
             do{
-                let jsonResponse = try JSONSerialization.jsonObject(with:
-                    data, options: .mutableContainers) as AnyObject
-                
+                let jsonResponse = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as AnyObject
                 if let content = jsonResponse["data"] as? NSArray{
-                    
                     for subContent in content {
                         let dataOfSub = subContent as? NSDictionary
-                        
                         let map = dataOfSub?["map_point"] as! [String : Any]
-                        
                         var store = Store(json: dataOfSub?["data"] as! [String : Any])
                         store.latidude = map["lat"] as! NSNumber
                         store.longitude = map["lng"] as! NSNumber
-
                         self.Stores.append(store)
                     }
-                    
                 }
-              
-                
             }catch let jsonErr{
                 print(jsonErr)
             }
-            
-            
             DispatchQueue.main.async {
                 self.tableView.reloadData()
+                self.dataOK = true
             }
-            
             }.resume()
     }
-    
-    
-    // MARK: - Table view data source
-    
-    
-    
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return Stores.count
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let scaleAnimation:CABasicAnimation = CABasicAnimation(keyPath: "transform.scale")
+        scaleAnimation.duration = 0.7
+        scaleAnimation.repeatCount = 3.0
+        scaleAnimation.autoreverses = true
+        scaleAnimation.fromValue = 1.0;
+        scaleAnimation.toValue = 1.07;
+        roundButton.layer.add(scaleAnimation, forKey: "scale")
+    }
+    
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        //Hiding the button to show last record
+        if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height )
+        {
+          self.roundButton.isHidden = true
+        }else{
+            self.roundButton.isHidden = false
+        }
+        let verticalIndicator = scrollView.subviews.last as? UIImageView
+        verticalIndicator?.backgroundColor = UIColor.red //Color of scrollbar
+    }
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.textLabel?.text = Stores[indexPath.row].name
@@ -160,15 +137,12 @@ class storesTableViewController: UITableViewController{
         return cell
     }
     
-    
     @IBAction func prepareForUnwind(segue:UIStoryboardSegue){
         
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let vc = segue.destination as! MapViewController
-       vc.Stores = Stores
+        vc.Stores = Stores
     }
-    
-    
 }
