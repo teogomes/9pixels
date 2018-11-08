@@ -2,8 +2,8 @@
 
 ## Getting Started
 
-An app with two screens one for displaying in a tableview the addresses of the stores fetched from an API and a second screen for 
-displaying them on the map.
+An app with two screens one for displaying the addresses of the stores fetched from an API and a second screen for 
+displaying them on the map with a built-in search tab equipped with autocomplete function.
 
 ### Prerequisites
 
