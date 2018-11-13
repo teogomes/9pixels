@@ -33,7 +33,16 @@ class storesTableViewController: UITableViewController{
         super.viewDidLoad()
         fetchData()
         table.alwaysBounceVertical=false
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "settings"), style: .plain, target: self, action: #selector(handleMenu))
+        
     }
+    
+    let menuView = menuViewLauncher()
+    
+    @objc func handleMenu(){
+        menuView.showMenu()
+    }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         insertButton()
@@ -144,5 +153,12 @@ class storesTableViewController: UITableViewController{
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let vc = segue.destination as! MapViewController
         vc.Stores = Stores
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+      roundButton.widthAnchor.constraint(equalToConstant: self.view.frame.height)
+        
+        
     }
 }
