@@ -6,6 +6,10 @@
 //  Copyright © 2018 Teodoro Gomes. All rights reserved.
 //
 
+
+//ΤΟDO COLLECTIONVIEW3 -> TABLE VIEW
+
+
 import UIKit
 
 class menuViewLauncher: NSObject,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
@@ -35,6 +39,8 @@ class menuViewLauncher: NSObject,UICollectionViewDelegate,UICollectionViewDataSo
         cv.backgroundColor = UIColor(white: 0.3, alpha: 0.2)
         return cv
     }()
+    
+   
     
     func showMenu() {
         
@@ -95,6 +101,7 @@ class menuViewLauncher: NSObject,UICollectionViewDelegate,UICollectionViewDataSo
             
             
             
+            
             //CONSTRAINTS
             
             NSLayoutConstraint.activate([
@@ -125,7 +132,7 @@ class menuViewLauncher: NSObject,UICollectionViewDelegate,UICollectionViewDataSo
         }
     }
     
-    @objc func handleDismiss() {
+    @objc func handleDismiss(sender: UITapGestureRecognizer) {
      
         UIView.animate(withDuration: 0.5) {
             if let window = UIApplication.shared.keyWindow {
@@ -134,6 +141,7 @@ class menuViewLauncher: NSObject,UICollectionViewDelegate,UICollectionViewDataSo
             }
         }
     }
+    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return options.count

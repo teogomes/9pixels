@@ -15,6 +15,9 @@ struct Store {
     let postalCode:String
     var latidude:NSNumber = 0
     var longitude:NSNumber = 0
+    var openingHours:[String] = []
+    var closingHours:[String] = []
+    var isOpen:Bool = false
     
     init(json:[String:Any]){
         name = json["name"] as? String ?? ""
@@ -34,7 +37,11 @@ class storesTableViewController: UITableViewController{
         fetchData()
         table.alwaysBounceVertical=false
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "settings"), style: .plain, target: self, action: #selector(handleMenu))
+        navigationItem.rightBarButtonItem?.tintColor = .black
         
+        
+        
+       
     }
     
     let menuView = menuViewLauncher()
@@ -97,10 +104,25 @@ class storesTableViewController: UITableViewController{
                     for subContent in content {
                         let dataOfSub = subContent as? NSDictionary
                         let map = dataOfSub?["map_point"] as! [String : Any]
+                        
                         var store = Store(json: dataOfSub?["data"] as! [String : Any])
                         store.latidude = map["lat"] as! NSNumber
                         store.longitude = map["lng"] as! NSNumber
+                        
+                        
+                        
+                        //opening hours
+                        
+                        if let opening = dataOfSub?["opening_hours"] as? NSArray{
+                            for subOpeningData in opening {
+                                let finalData =  subOpeningData as? NSDictionary
+                                store.openingHours.append(finalData?["open"] as! String)
+                                store.closingHours.append(finalData?["close"] as!String)
+                            }
+                        }
+                        
                         self.Stores.append(store)
+                        self.Stores[self.Stores.count - 1].isOpen = self.compareDate(i:self.Stores.count - 1)
                     }
                 }
             }catch let jsonErr{
@@ -112,7 +134,7 @@ class storesTableViewController: UITableViewController{
             }
             }.resume()
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return Stores.count
     }
@@ -131,18 +153,23 @@ class storesTableViewController: UITableViewController{
         //Hiding the button to show last record
         if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height )
         {
-          self.roundButton.isHidden = true
+            self.roundButton.isHidden = true
         }else{
             self.roundButton.isHidden = false
         }
         let verticalIndicator = scrollView.subviews.last as? UIImageView
         verticalIndicator?.backgroundColor = UIColor.red //Color of scrollbar
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.textLabel?.text = Stores[indexPath.row].name
         cell.detailTextLabel?.text = Stores[indexPath.row].address + ",TK:" + Stores[indexPath.row].postalCode
+        if !Stores[indexPath.row].isOpen {
+            cell.backgroundColor = .gray
+        }else {
+            cell.backgroundColor = .clear
+        }
         return cell
     }
     
@@ -157,8 +184,39 @@ class storesTableViewController: UITableViewController{
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-      roundButton.widthAnchor.constraint(equalToConstant: self.view.frame.height)
+        roundButton.widthAnchor.constraint(equalToConstant: self.view.frame.height)
         
         
+    }
+    
+    
+    //Compare Dates missing day of the week
+    
+    func compareDate(i:Int) -> Bool{
+        //Week starts from sunday (-1) arrays starts from zero (-1)
+        let weekday = Calendar.current.component(.weekday, from: Date()) - 2
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm"
+        let hour = Calendar.current.component(.hour, from:Date())
+        let minute = Calendar.current.component(.minute, from: Date())
+        let currentTime = String(hour) + ":" + String(minute)
+        let currentDate = formatter.date(from: "2000-03-01 " + currentTime)
+        let openingDate = formatter.date(from: "2000-03-01 " + self.Stores[i].openingHours[weekday])
+
+        
+        var closingDate:Date = Date()
+        
+        if i == 3 {
+            closingDate = formatter.date(from: "2000-03-01 " + "14:00")!
+        }else{
+            closingDate = formatter.date(from: "2000-03-02 " + self.Stores[i].closingHours[weekday])!
+        }
+      
+        if currentDate?.compare(openingDate!) == ComparisonResult.orderedDescending && currentDate?.compare(closingDate) == ComparisonResult.orderedAscending {
+            return true
+        }else{
+            return false
+        }
+       
     }
 }

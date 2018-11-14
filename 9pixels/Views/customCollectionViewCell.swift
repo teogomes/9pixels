@@ -40,9 +40,14 @@ class customCollectionViewCell: UICollectionViewCell {
             textView.bottomAnchor.constraint(equalTo: bottomAnchor)
             ])
     }
+    let menuLauncher = menuViewLauncher()
     
     @objc func handleTap(gesture : UITapGestureRecognizer) {
         let textBox = gesture.view as! UITextView
+        
+        if textBox.text! == "Αρχική" {
+       
+        }
         print(textBox.text)
     }
     
