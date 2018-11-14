@@ -7,7 +7,7 @@
 //
 
 
-//ΤΟDO COLLECTIONVIEW3 -> TABLE VIEW
+//ΤΟDO COLLECTIONVIEW3 -> TABLE VIEW , CustometableViewCell with icon in right corner
 
 
 import UIKit

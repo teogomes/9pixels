@@ -162,15 +162,21 @@ class storesTableViewController: UITableViewController{
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = Stores[indexPath.row].name
-        cell.detailTextLabel?.text = Stores[indexPath.row].address + ",TK:" + Stores[indexPath.row].postalCode
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! customTableViewCell
+        cell.titleLabel.text = Stores[indexPath.row].name
+      
+        cell.detailLabel?.text = Stores[indexPath.row].address + ",TK:" + Stores[indexPath.row].postalCode
         if !Stores[indexPath.row].isOpen {
+            cell.imageview.image = UIImage(named: "closed")
             cell.backgroundColor = .gray
         }else {
             cell.backgroundColor = .clear
         }
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
     }
     
     @IBAction func prepareForUnwind(segue:UIStoryboardSegue){
@@ -188,6 +194,7 @@ class storesTableViewController: UITableViewController{
         
         
     }
+    
     
     
     //Compare Dates missing day of the week
