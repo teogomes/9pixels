@@ -19,6 +19,7 @@ struct Store {
     var closingHours:[String] = []
     var isOpen:Bool = false
     
+  
     init(json:[String:Any]){
         name = json["name"] as? String ?? ""
         address = json["address"] as? String ?? ""
@@ -31,6 +32,8 @@ class storesTableViewController: UITableViewController{
     @IBOutlet var table: UITableView!
     var roundButton = UIButton()
     var dataOK = false
+    var keys = [Bool]()
+    var mapData = [Bool : [Store]]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -128,6 +131,24 @@ class storesTableViewController: UITableViewController{
             }catch let jsonErr{
                 print(jsonErr)
             }
+            
+            self.mapData = self.Stores.reduce([Bool: [Store]]()) { (result, element) -> [Bool: [Store]] in
+                var res = result
+//                print("Element",res[element.isOpen] as Any)
+//                print("Result",result)
+                
+                if res[element.isOpen] == nil {
+                    res[element.isOpen] = [element]
+                    self.keys += [element.isOpen]
+                } else {
+                    res[element.isOpen]! += [element]
+                }
+                return res
+            }
+            
+//            print("MAP DATA HERE: \(mapData)")
+//            print("map", mapData[false])
+         
             DispatchQueue.main.async {
                 self.tableView.reloadData()
                 self.dataOK = true
@@ -136,7 +157,14 @@ class storesTableViewController: UITableViewController{
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Stores.count
+        if keys.count < 1 { return 0 }
+        
+        let key = keys[section]
+        return mapData[key]?.count ?? 0
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return self.keys.count
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -163,20 +191,33 @@ class storesTableViewController: UITableViewController{
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! customTableViewCell
-        cell.titleLabel.text = Stores[indexPath.row].name
+        
+         let key = keys[indexPath.section]
+        
+        cell.titleLabel.text = mapData[key]?[indexPath.row].name
       
-        cell.detailLabel?.text = Stores[indexPath.row].address + ",TK:" + Stores[indexPath.row].postalCode
-        if !Stores[indexPath.row].isOpen {
+        cell.detailLabel?.text = (mapData[key]?[indexPath.row].address)! + ",TK:" + Stores[indexPath.row].postalCode
+        
+        if !key {
             cell.imageview.image = UIImage(named: "closed")
             cell.backgroundColor = .gray
         }else {
             cell.backgroundColor = .clear
+             cell.imageview.image = nil
         }
         return cell
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if !keys[section] {
+            return "Closed"
+        }else{
+            return ""
+        }
     }
     
     @IBAction func prepareForUnwind(segue:UIStoryboardSegue){
